@@ -1,4 +1,4 @@
-package pro.sky.SkyProLesson2_5.model;
+package pro.sky.SkyProLesson2_7.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

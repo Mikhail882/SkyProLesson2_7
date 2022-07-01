@@ -1,11 +1,11 @@
-package pro.sky.SkyProLesson2_5.controller;
+package pro.sky.SkyProLesson2_7.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import pro.sky.SkyProLesson2_5.model.Employee;
-import pro.sky.SkyProLesson2_5.service.EmployeeService;
+import pro.sky.SkyProLesson2_7.model.Employee;
+import pro.sky.SkyProLesson2_7.service.EmployeeService;
 
 import java.util.List;
 

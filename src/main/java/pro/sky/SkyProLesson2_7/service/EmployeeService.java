@@ -1,47 +1,50 @@
-package pro.sky.SkyProLesson2_5.service;
+package pro.sky.SkyProLesson2_7.service;
 
 import org.springframework.stereotype.Service;
-import pro.sky.SkyProLesson2_5.exception.EmployeeAlreadyAddedException;
-import pro.sky.SkyProLesson2_5.exception.EmployeeNotFoundException;
-import pro.sky.SkyProLesson2_5.exception.EmployeeStorageIsFullException;
-import pro.sky.SkyProLesson2_5.model.Employee;
+import pro.sky.SkyProLesson2_7.exception.EmployeeAlreadyAddedException;
+import pro.sky.SkyProLesson2_7.exception.EmployeeNotFoundException;
+import pro.sky.SkyProLesson2_7.exception.EmployeeStorageIsFullException;
+import pro.sky.SkyProLesson2_7.model.Employee;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
 
 @Service
 public class EmployeeService {
 
     private static final int LIMIT = 10;
 
-    private final List<Employee> employees = new ArrayList<>();
+    private final Map<String, Employee> employees = new HashMap<>();
+
+    private String getKey(Employee employee) {
+        return employee.getName() + "|" + employee.getSurname();
+    }
 
     public Employee add(String name, String surname) {
         Employee employee = new Employee(name, surname);
-        if (employees.contains(employee)) {
+        String key = getKey(employee);
+        if (employees.containsKey(key)) {
             throw new EmployeeAlreadyAddedException();
         }
         if (employees.size() < LIMIT) {
-            employees.add(employee);
-            return employee;
+            return employees.put(key, employee);
         }
         throw new EmployeeStorageIsFullException();
     }
 
     public Employee remove(String name, String surname) {
-        Employee employee = new Employee(name, surname);
-        if (!employees.contains(employee)) {
+        String key = getKey(new Employee(name, surname));
+        if (!employees.containsKey(key)) {
             throw new EmployeeNotFoundException();
         }
-        employees.remove(employee);
-        return employee;
+        return employees.remove(key);
     }
 
     public Employee find(String name, String surname) {
         Employee employee = new Employee(name, surname);
-        if (!employees.contains(employee)) {
+        if (!!employees.containsKey(getKey(employee))) {
             throw new EmployeeNotFoundException();
         }
 
@@ -50,6 +53,6 @@ public class EmployeeService {
 
 
     public List<Employee> getAll() {
-        return new ArrayList<>(employees);
+        return new ArrayList<>(employees.values());
     }
 }
